@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Election Night Bellwether Model</title>
+<meta name="description" content="Live projections for the 2026 Michigan Senate, NV-03, Nevada governor and both states' attorney general races from early-reporting bellwether counties.">
+<style>
+:root{--font-anthropic-sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--font-anthropic-serif:Georgia,"Times New Roman",serif;
+--cds-font-size-caption:.8125rem;--cds-font-size-body:.9375rem;--cds-font-size-heading:1.0625rem;--cds-font-size-title:1.75rem;--cds-font-weight-medium:600;
+--cds-gap-xs:.25rem;--cds-gap-sm:.5rem;--cds-gap-md:1rem;--cds-gap-xl:2rem;--cds-pad-xs:.25rem;--cds-pad-sm:.5rem;--cds-pad-lg:1.25rem;--cds-radius:8px;--cds-dur-slow:.3s;
+--color-bg:#faf9f6;--color-panel:#ffffff;--color-fg:#1f1e1c;--color-fg-muted:#6b6862;--color-border-line:#e4e1da;--color-bad:#c0392b;
+--cds-border:#d9d5cc;--cds-surface-popover:#ffffff;--cds-shadow-popover:0 4px 16px rgba(0,0,0,.12);--cds-chart-grid:#ece9e2;--cds-chart-axis:#9a968e;--cds-chart-reference:#6b6862}
+@media (prefers-color-scheme: dark){:root{--color-bg:#1c1b19;--color-panel:#262522;--color-fg:#ecebe7;--color-fg-muted:#a3a09a;--color-border-line:#3a3834;--cds-border:#45433e;--cds-surface-popover:#2e2d2a;--cds-chart-grid:#33312d;--cds-chart-axis:#7d7a73;--cds-chart-reference:#a3a09a;--color-bad:#e5675a}}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans)}
+.page{padding:1.25rem clamp(16px,4vw,48px) 3rem}
+.dash-skeleton{min-height:120px;border-radius:8px;background:var(--color-border-line);opacity:.5}
+.lx-foot{max-width:72rem;margin:2rem auto 0;color:var(--color-fg-muted);font-size:.8125rem}
+.lx-foot a{color:inherit}
+
+.lx { --lx-d: #2f6fbd; --lx-r: #c8423b; font-family: var(--font-anthropic-sans); max-width: 72rem; margin-inline: auto; }
+.lx h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0 0 var(--cds-gap-xs); }
+.lx h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: var(--cds-gap-xl) 0 var(--cds-gap-sm); }
+.lx h3 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.lx p, .lx li { line-height: 1.5; }
+.lx-muted { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.lx-take { font-size: var(--cds-font-size-body); margin: 0 0 var(--cds-gap-md); }
+.lx-bar { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: center; margin-bottom: var(--cds-gap-md); }
+.lx button { font: inherit; font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-panel); color: var(--color-fg); cursor: pointer; }
+.lx button:hover { border-color: var(--color-fg-muted); }
+.lx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: var(--cds-gap-md); }
+.lx-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
+.lx-big { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: calc(var(--cds-font-size-title) * 1.3); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.lx-d { color: var(--lx-d); } .lx-r { color: var(--lx-r); }
+.lx-prob { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: var(--color-border-line); }
+.lx-prob span { display: block; height: 100%; }
+.lx-probtxt { display: flex; justify-content: space-between; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+.lx-kv { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; }
+.lx-kv b { color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+.lx-adj { display: flex; align-items: center; gap: var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.lx-adj input { flex: 1; min-width: 6rem; }
+.lx-adj output { min-width: 3.5rem; text-align: right; color: var(--color-fg); font-variant-numeric: tabular-nums; }
+.lx-tablewrap { overflow-x: auto; }
+.lx table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+.lx th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+.lx td { padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); vertical-align: middle; }
+.lx td.num, .lx th.num { text-align: right; }
+.lx .lx-in { width: 5.5rem; font: inherit; padding: 3px 6px; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); text-align: right; }
+.lx .lx-in.bad { border-color: var(--color-bad); }
+.lx-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+.lx-note { color: var(--color-fg-muted); }
+.lx-live { font-size: var(--cds-font-size-caption); margin: 0 0 var(--cds-gap-xs); }
+.lx-src { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); white-space: nowrap; }
+.lx-chartbox { position: relative; min-height: 120px; }
+.lx-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; }
+.lx-empty { display: flex; align-items: center; justify-content: center; min-height: 120px; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.lx-fail { display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.lx-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+.lx ol { padding-left: 1.2rem; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+
+<script>
+(() => {
+  const FILES = { bellwethers: 'data/bellwethers.json', targets: 'data/targets.json', live_results: 'data/live_results.json', race_results: 'data/race_results.json' };
+  const DEFAULTS = {"m_hamilton_in": null, "m_vigo_in": null, "m_loudoun_va": null, "m_princewilliam_va": null, "m_henrico_va": null, "m_chesterfield_va": null, "m_vabeach_va": null, "m_cobb_ga": null, "m_gwinnett_ga": null, "m_pinellas_fl": null, "m_miamidade_fl": null, "m_osceola_fl": null, "m_nash_nc": null, "m_erie_pa": null, "m_northampton_pa": null, "m_bucks_pa": null, "adj_mi_sen": 0, "adj_nv_03": 0, "adj_nv_gov": 0, "adj_mi_ag": 0, "adj_nv_ag": 0};
+  const store = {}; Object.keys(FILES).forEach((k) => store[k] = { status: 'loading', data: [] });
+  let params = { ...DEFAULTS };
+  try { const saved = JSON.parse(localStorage.getItem('lx-params') || 'null'); if (saved) params = { ...DEFAULTS, ...saved }; } catch (e) {}
+  const subs = [];
+  const fire = () => subs.forEach((fn) => { try { fn(); } catch (e) { console.error(e); } });
+  const save = () => { try { localStorage.setItem('lx-params', JSON.stringify(params)); } catch (e) {} };
+  const load = async (k) => {
+    try { const r = await fetch(FILES[k] + '?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) throw new Error(r.status); store[k] = { status: 'ok', data: await r.json() }; }
+    catch (e) { if (store[k].status !== 'ok') store[k] = { status: 'error', data: [] }; }
+  };
+  const loadAll = async (keys) => { await Promise.all(keys.map(load)); fire(); };
+  window.dash = {
+    colors: ['#2a7ab0', '#d4772c', '#7a5cc4', '#3b9e6e', '#c44f7a', '#8a8a2c', '#4c6e9e', '#9e6a3b'],
+    data: (k) => store[k] || { status: 'missing', data: [] },
+    onData: (fn) => { subs.push(fn); try { fn(); } catch (e) { console.error(e); } },
+    params: () => ({ ...params }),
+    setParams: (p) => { params = { ...params, ...p }; save(); fire(); },
+    resetParams: () => { params = { ...DEFAULTS }; save(); fire(); },
+  };
+  loadAll(Object.keys(FILES));
+  setInterval(() => loadAll(['live_results', 'race_results']), 5 * 60 * 1000);
+  let w = window.innerWidth; window.addEventListener('resize', () => { if (Math.abs(window.innerWidth - w) > 20) { w = window.innerWidth; fire(); } });
+})();
+</script>
+</head>
+<body>
+<main class="page">
+<div class="lx">
+  <h1 id="top">Election night bellwether model</h1>
+  <p class="lx-take" id="takeaway" data-source="bellwethers targets live_results race_results">Enter early county results below to project the three races.</p>
+
+  <div class="lx-bar">
+    <button class="lx-clear" type="button">Clear typed results</button>
+    <button class="lx-demo" data-shift="4" type="button">Demo: uniform D+4 swing</button>
+    <button class="lx-demo" data-shift="-2" type="button">Demo: uniform R+2 swing</button>
+    <span class="lx-muted">Demo buttons fill every county with a made-up result so you can see how the model reacts.</span>
+  </div>
+
+  <h2 id="projections">Projections</h2>
+  <div class="lx-grid" id="race-cards" data-source="targets bellwethers live_results race_results"></div>
+
+  <h2 id="swing">Swing from 2024 so far</h2>
+  <div class="lx-card">
+    <h3>Each reporting county's shift in margin vs. the 2024 presidential result</h3>
+    <p class="lx-muted">Right of zero is a move toward Democrats. The dashed line is the average swing.</p>
+    <div class="lx-chartbox" id="swing-chart" data-source="bellwethers"></div>
+  </div>
+
+  <h2 id="enter">Enter results</h2>
+  <div class="lx-card">
+    <p class="lx-live" id="live-status" data-source="live_results">—</p>
+    <p class="lx-muted">From election night, Decision Desk HQ margins fill in automatically every 30 minutes (6 PM ET Nov 3 to 6 PM ET Nov 6). Anything you type overrides the automatic value for that county; clear the box to go back to it. Type a margin as <b>D+4.2</b>, <b>R+3</b>, or a signed number (positive = Democrat ahead). Wait until most of a county is counted, and remember early votes and Election Day votes can lean very differently. Rows are in poll-closing order (Eastern time). Margin 2024 is the presidential result, Democrat minus Republican, in points.</p>
+    <div class="lx-tablewrap">
+      <table id="entry-table" data-source="bellwethers" data-row-key="id">
+        <thead><tr>
+          <th data-field="place">Place</th>
+          <th data-field="state">State</th>
+          <th data-field="close_et">Polls close</th>
+          <th data-field="group">Type</th>
+          <th data-field="margin_2024" class="num">Margin 2024</th>
+          <th class="num">2026 margin</th>
+          <th class="num">Swing</th>
+          <th>Source</th>
+          <th data-field="note">Why watch</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2 id="method">How the projection works</h2>
+  <div class="lx-card">
+    <ol>
+      <li>For each county you enter, the <b>swing</b> is its 2026 margin minus its 2024 presidential margin.</li>
+      <li>Counties are grouped as suburban, working-class/swing, or Hispanic-heavy, and each group's swings are averaged. A group with nothing reported yet uses the average of all counties entered.</li>
+      <li>Each race applies a weighted mix of those group swings to its 2024 presidential baseline. The weights are my judgment about each electorate (Michigan leans on suburban and working-class voters; Nevada more on Hispanic voters) and are listed on each card.</li>
+      <li>The <b>candidate adjustment</b> slider adds anything the swing can't see, such as incumbency or a weak nominee. It starts at zero.</li>
+      <li>Uncertainty combines a fixed 3-point error with the spread of the swings you've entered, shrinking as more counties report. The win chance and 80% range come from that.</li>
+      <li>Once Decision Desk reports a race's own count, the projection blends that count with the model, giving the count more weight as the share of expected vote grows (weight = share<sup>1.5</sup>, so 50% in is about a third count, two-thirds model). The early count can mislead: mail and early votes are often counted first, and Nevada keeps counting mail ballots for days.</li>
+    </ol>
+    <p class="lx-muted">This is a back-of-the-envelope model, not a forecast. It assumes the national swing carries over evenly, which it often doesn't. 2024 county and district results are from Wikipedia's state result pages and Ballotpedia, linked in Sources.</p>
+  </div>
+</div>
+<p class="lx-foot" id="sources">Results update automatically from Decision Desk HQ once an hour on election night (Nov 3–6, 2026); this page re-checks for new numbers every 5 minutes. 2024 baselines: Wikipedia state results pages and Ballotpedia. A back-of-the-envelope model, not a forecast. Numbers you type are saved only in your own browser.</p>
+</main>
+<script>
+(() => {
+  const GROUPS = ['Suburban', 'Working-class', 'Hispanic'];
+  const fmt1 = d3.format('.1f');
+  const signed = (m) => (m == null || isNaN(m)) ? '—' : (Math.abs(m) < 0.05 ? 'Even' : (m > 0 ? 'D+' : 'R+') + fmt1(Math.abs(m)));
+  const parseM = (s) => {
+    s = String(s || '').trim().replace(/[−–]/g, '-');
+    if (!s) return null;
+    const m = s.match(/^([DR])\s*\+?\s*(\d+(?:\.\d+)?)$/i);
+    if (m) return (m[1].toUpperCase() === 'D' ? 1 : -1) * Number(m[2]);
+    const n = Number(s.replace('+', ''));
+    return isFinite(n) ? n : NaN;
+  };
+  const erf = (x) => { const t = 1 / (1 + 0.3275911 * Math.abs(x)); const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x); return x >= 0 ? y : -y; };
+  const phi = (z) => 0.5 * (1 + erf(z / Math.SQRT2));
+  const groupColor = (g) => dash.colors[Math.max(0, GROUPS.indexOf(g))];
+
+  window.lxModel = (bell, params) => {
+    const rep = bell.map((r) => ({ ...r, now: params['m_' + r.id] })).filter((r) => typeof r.now === 'number' && isFinite(r.now)).map((r) => ({ ...r, swing: r.now - Number(r.margin_2024) }));
+    const n = rep.length;
+    const overall = n ? d3.mean(rep, (r) => r.swing) : 0;
+    const gs = {};
+    GROUPS.forEach((g) => { const xs = rep.filter((r) => r.group === g); gs[g] = xs.length ? d3.mean(xs, (r) => r.swing) : overall; });
+    const sd = n > 1 ? d3.deviation(rep, (r) => r.swing) : 6;
+    const sigma = n ? Math.sqrt(9 + (sd * sd) / n) : 6;
+    return { rep, n, overall, gs, sigma };
+  };
+
+  // Inputs
+  const tbody = document.querySelector('#entry-table tbody');
+  tbody.addEventListener('change', (e) => {
+    const inp = e.target.closest('input.lx-in'); if (!inp) return;
+    const v = parseM(inp.value);
+    inp.classList.toggle('bad', Number.isNaN(v));
+    if (Number.isNaN(v)) return;
+    dash.setParams({ ['m_' + inp.dataset.id]: v == null ? null : Math.round(v * 100) / 100 });
+  });
+  document.querySelector('.lx-clear').addEventListener('click', () => dash.resetParams());
+  document.querySelectorAll('.lx-demo').forEach((b) => b.addEventListener('click', () => {
+    const d = dash.data('bellwethers'); if (d.status !== 'ok') return;
+    const shift = Number(b.dataset.shift); const p = {};
+    d.data.forEach((r, i) => { p['m_' + r.id] = Math.round((Number(r.margin_2024) + shift + (((i * 37) % 7) - 3) * 0.6) * 10) / 10; });
+    dash.setParams(p);
+  }));
+
+  const cards = document.getElementById('race-cards');
+  cards.addEventListener('input', (e) => {
+    const s = e.target.closest('input[type=range]'); if (!s) return;
+    s.parentElement.querySelector('output').textContent = signed(Number(s.value));
+  });
+  cards.addEventListener('change', (e) => {
+    const s = e.target.closest('input[type=range]'); if (!s) return;
+    dash.setParams({ ['adj_' + s.dataset.race]: Number(s.value) });
+  });
+
+  const el = (tag, cls, text) => { const x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; };
+
+  dash.onData(() => {
+    const B = dash.data('bellwethers'), T = dash.data('targets');
+    const params = dash.params();
+    const take = document.getElementById('takeaway');
+    const chart = document.getElementById('swing-chart');
+
+    if (B.status !== 'ok' || T.status !== 'ok') {
+      const failed = B.status === 'error' || T.status === 'error';
+      cards.replaceChildren(failed ? el('div', 'lx-fail', 'Failed to load') : el('div', 'dash-skeleton'));
+      chart.replaceChildren(failed ? el('div', 'lx-fail', 'Failed to load') : el('div', 'dash-skeleton'));
+      if (B.status !== 'ok') tbody.replaceChildren();
+      take.textContent = '—';
+      return;
+    }
+    const bell = B.data.map((r) => ({ ...r, margin_2024: Number(r.margin_2024) }));
+    const L = dash.data('live_results');
+    const liveRows = L.status === 'ok' && Array.isArray(L.data) ? L.data : [];
+    const live = {};
+    liveRows.forEach((r) => { const v = Number(r.d_margin); if (r.d_margin !== null && r.d_margin !== '' && isFinite(v)) live[r.id] = { ...r, d_margin: v }; });
+    const eff = { ...params };
+    bell.forEach((r) => { if (typeof params['m_' + r.id] !== 'number' && live[r.id]) eff['m_' + r.id] = live[r.id].d_margin; });
+    const M = window.lxModel(bell, eff);
+
+    const RR = dash.data('race_results');
+    const raceRes = {};
+    (RR.status === 'ok' && Array.isArray(RR.data) ? RR.data : []).forEach((r) => {
+      const tv = Number(r.total_votes), ev = Number(r.expected_votes), dm = Number(r.d_margin);
+      if (tv > 0 && ev > 0 && r.d_margin !== null && r.d_margin !== '' && isFinite(dm)) raceRes[r.race] = { ...r, total_votes: tv, expected_votes: ev, d_margin: dm };
+    });
+    const ls = document.getElementById('live-status');
+    if (L.status === 'ok') {
+      const n = Object.keys(live).length;
+      const last = d3.max(liveRows, (r) => r.fetched_at ? new Date(r.fetched_at) : null);
+      const fmtT = (d) => d.toLocaleString('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + ' ET';
+      ls.textContent = n
+        ? 'Decision Desk results: ' + n + ' of ' + bell.length + ' counties, last updated ' + (last ? fmtT(last) : '—') + '.'
+        : (last ? 'Decision Desk results: none readable yet as of ' + fmtT(last) + '.' : 'Decision Desk results: none yet. The first automatic update runs Nov 3 at 6 PM ET.');
+    } else {
+      ls.textContent = L.status === 'error' ? 'Decision Desk results failed to load; typed results still work.' : '—';
+    }
+
+    // Table
+    const focused = document.activeElement && document.activeElement.classList.contains('lx-in') ? document.activeElement.dataset.id : null;
+    if (tbody.children.length !== bell.length) {
+      tbody.replaceChildren(...bell.map((r) => {
+        const tr = el('tr'); tr.dataset.key = r.id;
+        const c1 = el('td'); const dot = el('span', 'lx-dot'); dot.style.background = groupColor(r.group); c1.append(dot, document.createTextNode(r.place));
+        const inTd = el('td', 'num'); const inp = el('input', 'lx-in'); inp.dataset.id = r.id; inp.setAttribute('aria-label', '2026 margin in ' + r.place); inp.placeholder = 'D+0.0'; inTd.append(inp);
+        tr.append(c1, el('td', null, r.state), el('td', null, r.close_et), el('td', null, r.group), el('td', 'num', String(r.margin_2024)), inTd, el('td', 'num lx-sw'), el('td', 'lx-src'), el('td', 'lx-note', r.note));
+        return tr;
+      }));
+    }
+    [...tbody.children].forEach((tr, i) => {
+      const r = bell[i]; const typed = params['m_' + r.id]; const v = eff['m_' + r.id];
+      const inp = tr.querySelector('input.lx-in');
+      if (r.id !== focused && !inp.classList.contains('bad')) inp.value = (typeof typed === 'number') ? signed(typed) : '';
+      inp.placeholder = live[r.id] ? signed(live[r.id].d_margin) : 'D+0.0';
+      tr.querySelector('.lx-src').textContent = typeof typed === 'number' ? 'You' : (live[r.id] ? 'DDHQ' + (live[r.id].race ? ' · ' + live[r.id].race : '') : '');
+      const sw = tr.querySelector('.lx-sw');
+      if (typeof v === 'number') { const s = v - r.margin_2024; sw.textContent = signed(s); sw.className = 'num lx-sw ' + (s >= 0 ? 'lx-d' : 'lx-r'); }
+      else { sw.textContent = ''; sw.className = 'num lx-sw'; }
+    });
+
+    // Race cards
+    const results = T.data.map((t) => {
+      const w = { Suburban: Number(t.w_suburban), 'Working-class': Number(t.w_working), Hispanic: Number(t.w_hispanic) };
+      const swing = M.n ? GROUPS.reduce((a, g) => a + w[g] * M.gs[g], 0) : 0;
+      const adj = Number(eff['adj_' + t.race] ?? 0) || 0;
+      const model = Number(t.baseline_margin) + swing + adj;
+      // Blend in the race's own counted vote once Decision Desk reports it.
+      const rr = raceRes[t.race];
+      let frac = 0, counted = null, wt = 0;
+      if (rr) { frac = Math.min(1, rr.total_votes / rr.expected_votes); counted = rr.d_margin; wt = Math.pow(frac, 1.5); }
+      const margin = counted == null ? model : wt * counted + (1 - wt) * model;
+      const sigma = Math.max(0.3, Math.sqrt(Math.pow((1 - wt) * M.sigma, 2) + Math.pow(2.5 * (1 - frac), 2) * (rr ? 1 : 0)));
+      const pD = phi(margin / sigma);
+      return { t, w, swing, adj, model, rr, frac, counted, margin, sigma, pD, lo: margin - 1.2816 * sigma, hi: margin + 1.2816 * sigma };
+    });
+    const activeRange = document.activeElement && document.activeElement.type === 'range' ? document.activeElement.dataset.race : null;
+    if (!activeRange) {
+      cards.replaceChildren(...results.map((R) => {
+        const t = R.t; const card = el('div', 'lx-card'); card.id = 'race-' + t.race;
+        const lead = R.margin >= 0 ? t.dem : t.rep;
+        const big = el('div', 'lx-big ' + (R.margin >= 0 ? 'lx-d' : 'lx-r'), (Math.abs(R.margin) < 0.05 ? 'Even' : lead + ' +' + fmt1(Math.abs(R.margin))));
+        const status = el('p', 'lx-kv', R.rr
+          ? 'Blends the race\'s own count (' + d3.format('.0%')(R.frac) + ' of expected vote in) with the bellwether model'
+          : (M.n ? 'Projected margin from ' + M.n + ' reporting ' + (M.n === 1 ? 'county' : 'counties') : 'No results yet: showing the 2024 baseline'));
+        const cnt = el('p', 'lx-kv');
+        if (R.rr) {
+          const nm = (m) => (m >= 0 ? (R.rr.d_name || t.dem) : (R.rr.r_name || t.rep)) + ' +' + fmt1(Math.abs(m));
+          cnt.append('Counted so far: ', el('b', null, nm(R.counted)), ' · ' + d3.format(',')(R.rr.total_votes) + ' of ~' + d3.format(',')(Math.round(R.rr.expected_votes)) + ' votes · bellwether model alone: ', el('b', null, nm(R.model)));
+        } else {
+          cnt.textContent = 'Race count: none reported yet. Once Decision Desk posts it, the projection leans on the actual count more as the vote comes in.';
+        }
+        const prob = el('div', 'lx-prob'); const pd = el('span'); pd.style.width = (R.pD * 100) + '%'; pd.style.background = 'var(--lx-d)'; const pr = el('span'); pr.style.width = ((1 - R.pD) * 100) + '%'; pr.style.background = 'var(--lx-r)'; prob.append(pd, pr);
+        const pt = el('div', 'lx-probtxt'); pt.append(el('span', 'lx-d', t.dem + ' ' + d3.format('.0%')(R.pD)), el('span', 'lx-r', t.rep + ' ' + d3.format('.0%')(1 - R.pD)));
+        const range = el('p', 'lx-kv'); range.append('80% range: ', el('b', null, signed(R.lo) + ' to ' + signed(R.hi)));
+        const base = el('p', 'lx-kv'); base.append('Baseline: '); const bl = el('span', null, t.baseline_label); bl.dataset.source = 'targets'; bl.dataset.field = 'baseline_label'; bl.dataset.where = 'race=' + t.race; base.append(bl);
+        const ref = el('p', 'lx-kv'); ref.append('For reference: '); const rl = el('span', null, t.ref_label); rl.dataset.source = 'targets'; rl.dataset.field = 'ref_label'; rl.dataset.where = 'race=' + t.race; ref.append(rl);
+        const sw = el('p', 'lx-kv'); sw.append('Weighted swing applied: ', el('b', null, M.n ? signed(R.swing) : '—'), ' · weights suburban ' + d3.format('.0%')(R.w.Suburban) + ', working-class ' + d3.format('.0%')(R.w['Working-class']) + ', Hispanic ' + d3.format('.0%')(R.w.Hispanic));
+        const adj = el('label', 'lx-adj'); adj.append('Candidate adjustment');
+        const s = el('input'); s.type = 'range'; s.min = -6; s.max = 6; s.step = 0.5; s.value = R.adj; s.dataset.race = t.race; s.setAttribute('aria-label', 'Candidate adjustment for ' + t.title);
+        adj.append(s, el('output', null, R.adj ? signed(R.adj) : '0'));
+        cnt.dataset.source = 'race_results';
+        card.append(el('h3', null, t.title), el('p', 'lx-muted', t.matchup), big, status, prob, pt, range, cnt, base, ref, sw, adj);
+        return card;
+      }));
+    }
+
+    // Takeaway
+    take.textContent = M.n
+      ? M.n + ' of ' + bell.length + ' bellwethers entered, average swing ' + signed(M.overall) + ' from 2024. ' + results.map((R) => R.t.title + ': ' + (R.margin >= 0 ? R.t.dem : R.t.rep) + ' +' + fmt1(Math.abs(R.margin))).join(' · ')
+      : 'No results entered yet. Fill in counties as they report (from 6 PM ET in Indiana) and the three projections update.';
+
+    // Swing chart
+    chart.replaceChildren();
+    if (!M.n) { chart.append(el('div', 'lx-empty', 'Swings appear here as you enter county results.')); return; }
+    const rows = M.rep.slice().sort((a, b) => b.swing - a.swing);
+    const W = Math.max(280, chart.clientWidth || 600), rowH = 24;
+    const svg = d3.select(chart).append('svg').attr('width', '100%');
+    const labels = svg.append('g').selectAll('text').data(rows).join('text').attr('font-size', 12).attr('fill', 'var(--color-fg)').text((d) => d.place + ', ' + d.state);
+    let lw = 0; labels.each(function () { lw = Math.max(lw, this.getComputedTextLength()); });
+    const mL = lw + 12, mR = 48, mT = 8, mB = 28, H = rows.length * rowH + mT + mB;
+    svg.attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    const ext = d3.extent(rows, (d) => d.swing); const lim = Math.max(5, Math.abs(ext[0]), Math.abs(ext[1])) * 1.1;
+    const x = d3.scaleLinear([-lim, lim], [mL, W - mR]).nice();
+    const y = (i) => mT + i * rowH + rowH / 2;
+    labels.attr('x', mL - 8).attr('y', (d, i) => y(i)).attr('dy', '0.35em').attr('text-anchor', 'end');
+    const ax = svg.append('g').attr('transform', `translate(0,${H - mB})`).call(d3.axisBottom(x).ticks(Math.max(3, Math.floor((W - mL - mR) / 70))).tickFormat((v) => v === 0 ? '0' : signed(v)).tickSize(-(H - mT - mB)));
+    ax.attr('font-size', null).attr('font-family', null);
+    ax.selectAll('text').attr('fill', 'var(--color-fg-muted)').attr('font-size', 11);
+    ax.selectAll('line').attr('stroke', 'var(--cds-chart-grid)');
+    ax.select('.domain').remove();
+    svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', mT).attr('y2', H - mB).attr('stroke', 'var(--cds-chart-axis)');
+    svg.append('line').attr('x1', x(M.overall)).attr('x2', x(M.overall)).attr('y1', mT).attr('y2', H - mB).attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 3');
+    svg.append('text').attr('x', x(M.overall)).attr('y', mT).attr('dy', '-0.1em').attr('font-size', 11).attr('fill', 'var(--color-fg-muted)').attr('text-anchor', 'middle');
+    svg.append('g').selectAll('line').data(rows).join('line').attr('x1', x(0)).attr('x2', (d) => x(d.swing)).attr('y1', (d, i) => y(i)).attr('y2', (d, i) => y(i)).attr('stroke', (d) => groupColor(d.group)).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('opacity', 0.5);
+    const tip = el('div', 'lx-tip'); tip.hidden = true; chart.append(tip);
+    svg.append('g').selectAll('circle').data(rows).join('circle').attr('cx', (d) => x(d.swing)).attr('cy', (d, i) => y(i)).attr('r', 5).attr('fill', (d) => groupColor(d.group))
+      .on('mousemove', (ev, d) => {
+        tip.replaceChildren(el('div', 'lx-muted', d.place + ', ' + d.state + ' · ' + d.group), el('div', null, '2024 ' + signed(d.margin_2024) + ' → now ' + signed(d.now)), el('div', null, 'Swing ' + signed(d.swing)));
+        tip.hidden = false; const [px, py] = d3.pointer(ev, chart);
+        const tw = tip.offsetWidth; tip.style.left = Math.min(Math.max(0, px + 12), chart.clientWidth - tw) + 'px'; tip.style.top = (py + 12) + 'px';
+      })
+      .on('mouseleave', () => { tip.hidden = true; });
+    svg.append('g').selectAll('text').data(rows).join('text').attr('x', (d) => x(d.swing) + (d.swing >= 0 ? 9 : -9)).attr('y', (d, i) => y(i)).attr('dy', '0.35em').attr('text-anchor', (d) => d.swing >= 0 ? 'start' : 'end').attr('font-size', 11).attr('fill', 'var(--color-fg-muted)').text((d) => signed(d.swing));
+    // legend
+    const leg = el('div', 'lx-muted'); leg.style.marginTop = 'var(--cds-gap-xs)';
+    GROUPS.forEach((g) => { const s = el('span'); s.style.marginRight = '14px'; const dd = el('span', 'lx-dot'); dd.style.background = groupColor(g); s.append(dd, g + ' ' + (M.rep.some((r) => r.group === g) ? signed(M.gs[g]) : '(none yet)')); leg.append(s); });
+    const avg = el('span', null, '· average ' + signed(M.overall)); leg.append(avg);
+    chart.append(leg);
+  });
+})();
+</script>
+</body>
+</html>

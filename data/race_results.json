@@ -1,0 +1,57 @@
+[
+ {
+  "race": "mi_sen",
+  "d_name": null,
+  "r_name": null,
+  "d_votes": null,
+  "r_votes": null,
+  "d_margin": null,
+  "total_votes": 0,
+  "expected_votes": null,
+  "fetched_at": null
+ },
+ {
+  "race": "nv_03",
+  "d_name": null,
+  "r_name": null,
+  "d_votes": null,
+  "r_votes": null,
+  "d_margin": null,
+  "total_votes": 0,
+  "expected_votes": null,
+  "fetched_at": null
+ },
+ {
+  "race": "nv_gov",
+  "d_name": null,
+  "r_name": null,
+  "d_votes": null,
+  "r_votes": null,
+  "d_margin": null,
+  "total_votes": 0,
+  "expected_votes": null,
+  "fetched_at": null
+ },
+ {
+  "race": "mi_ag",
+  "d_name": null,
+  "r_name": null,
+  "d_votes": null,
+  "r_votes": null,
+  "d_margin": null,
+  "total_votes": 0,
+  "expected_votes": null,
+  "fetched_at": null
+ },
+ {
+  "race": "nv_ag",
+  "d_name": null,
+  "r_name": null,
+  "d_votes": null,
+  "r_votes": null,
+  "d_margin": null,
+  "total_votes": 0,
+  "expected_votes": null,
+  "fetched_at": null
+ }
+]

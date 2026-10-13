@@ -1,0 +1,162 @@
+[
+ {
+  "id": "hamilton_in",
+  "place": "Hamilton County",
+  "state": "IN",
+  "close_et": "6:00 PM",
+  "group": "Suburban",
+  "margin_2024": -6.03,
+  "note": "Indianapolis suburbs (IN-5); college-educated, trending left",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Indiana"
+ },
+ {
+  "id": "vigo_in",
+  "place": "Vigo County",
+  "state": "IN",
+  "close_et": "6:00 PM",
+  "group": "Working-class",
+  "margin_2024": -18.04,
+  "note": "Terre Haute; classic ex-bellwether, blue-collar read",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Indiana"
+ },
+ {
+  "id": "loudoun_va",
+  "place": "Loudoun County",
+  "state": "VA",
+  "close_et": "7:00 PM",
+  "group": "Suburban",
+  "margin_2024": 16.18,
+  "note": "Northern Virginia exurbs; high-income, diverse",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia"
+ },
+ {
+  "id": "princewilliam_va",
+  "place": "Prince William County",
+  "state": "VA",
+  "close_et": "7:00 PM",
+  "group": "Suburban",
+  "margin_2024": 17.89,
+  "note": "Northern Virginia; ~25% Hispanic",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia"
+ },
+ {
+  "id": "henrico_va",
+  "place": "Henrico County",
+  "state": "VA",
+  "close_et": "7:00 PM",
+  "group": "Suburban",
+  "margin_2024": 28.74,
+  "note": "Richmond suburbs",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia"
+ },
+ {
+  "id": "chesterfield_va",
+  "place": "Chesterfield County",
+  "state": "VA",
+  "close_et": "7:00 PM",
+  "group": "Suburban",
+  "margin_2024": 8.94,
+  "note": "Richmond suburbs; true swing suburb",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia"
+ },
+ {
+  "id": "vabeach_va",
+  "place": "Virginia Beach city",
+  "state": "VA",
+  "close_et": "7:00 PM",
+  "group": "Working-class",
+  "margin_2024": 2.64,
+  "note": "Military-heavy core of VA-2",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia"
+ },
+ {
+  "id": "cobb_ga",
+  "place": "Cobb County",
+  "state": "GA",
+  "close_et": "7:00 PM",
+  "group": "Suburban",
+  "margin_2024": 14.88,
+  "note": "Atlanta suburbs",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Georgia"
+ },
+ {
+  "id": "gwinnett_ga",
+  "place": "Gwinnett County",
+  "state": "GA",
+  "close_et": "7:00 PM",
+  "group": "Suburban",
+  "margin_2024": 16.52,
+  "note": "Atlanta suburbs; large Hispanic and Asian share",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Georgia"
+ },
+ {
+  "id": "pinellas_fl",
+  "place": "Pinellas County",
+  "state": "FL",
+  "close_et": "7:00 PM",
+  "group": "Working-class",
+  "margin_2024": -5.23,
+  "note": "St. Petersburg/Clearwater; long-run Florida bellwether",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Florida"
+ },
+ {
+  "id": "miamidade_fl",
+  "place": "Miami-Dade County",
+  "state": "FL",
+  "close_et": "7:00 PM",
+  "group": "Hispanic",
+  "margin_2024": -11.45,
+  "note": "~70% Hispanic; biggest 2024 swing to the GOP",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Florida"
+ },
+ {
+  "id": "osceola_fl",
+  "place": "Osceola County",
+  "state": "FL",
+  "close_et": "7:00 PM",
+  "group": "Hispanic",
+  "margin_2024": -1.45,
+  "note": "Majority-Hispanic, heavily Puerto Rican",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Florida"
+ },
+ {
+  "id": "nash_nc",
+  "place": "Nash County",
+  "state": "NC",
+  "close_et": "7:30 PM",
+  "group": "Working-class",
+  "margin_2024": -1.76,
+  "note": "Rocky Mount; mixed rural/suburban swing county",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_North_Carolina"
+ },
+ {
+  "id": "erie_pa",
+  "place": "Erie County",
+  "state": "PA",
+  "close_et": "8:00 PM",
+  "group": "Working-class",
+  "margin_2024": -1.02,
+  "note": "Obama-Trump-Biden-Trump county",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Pennsylvania"
+ },
+ {
+  "id": "northampton_pa",
+  "place": "Northampton County",
+  "state": "PA",
+  "close_et": "8:00 PM",
+  "group": "Working-class",
+  "margin_2024": -1.78,
+  "note": "Lehigh Valley; Obama-Trump-Biden-Trump county",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Pennsylvania"
+ },
+ {
+  "id": "bucks_pa",
+  "place": "Bucks County",
+  "state": "PA",
+  "close_et": "8:00 PM",
+  "group": "Suburban",
+  "margin_2024": -0.07,
+  "note": "Philadelphia suburbs (PA-1)",
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Pennsylvania"
+ }
+]
