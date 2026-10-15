@@ -7,7 +7,8 @@
   "group": "Suburban",
   "margin_2024": -6.03,
   "note": "Indianapolis suburbs (IN-5); college-educated, trending left",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Indiana"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Indiana",
+  "votes_2024": 196441
  },
  {
   "id": "vigo_in",
@@ -17,7 +18,8 @@
   "group": "Working-class",
   "margin_2024": -18.04,
   "note": "Terre Haute; classic ex-bellwether, blue-collar read",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Indiana"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Indiana",
+  "votes_2024": 40877
  },
  {
   "id": "loudoun_va",
@@ -27,7 +29,8 @@
   "group": "Suburban",
   "margin_2024": 16.18,
   "note": "Northern Virginia exurbs; high-income, diverse",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia",
+  "votes_2024": 228208
  },
  {
   "id": "princewilliam_va",
@@ -37,7 +40,8 @@
   "group": "Suburban",
   "margin_2024": 17.89,
   "note": "Northern Virginia; ~25% Hispanic",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia",
+  "votes_2024": 227591
  },
  {
   "id": "henrico_va",
@@ -47,7 +51,8 @@
   "group": "Suburban",
   "margin_2024": 28.74,
   "note": "Richmond suburbs",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia",
+  "votes_2024": 180642
  },
  {
   "id": "chesterfield_va",
@@ -57,7 +62,8 @@
   "group": "Suburban",
   "margin_2024": 8.94,
   "note": "Richmond suburbs; true swing suburb",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia",
+  "votes_2024": 209730
  },
  {
   "id": "vabeach_va",
@@ -67,7 +73,8 @@
   "group": "Working-class",
   "margin_2024": 2.64,
   "note": "Military-heavy core of VA-2",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Virginia",
+  "votes_2024": 227770
  },
  {
   "id": "cobb_ga",
@@ -77,7 +84,8 @@
   "group": "Suburban",
   "margin_2024": 14.88,
   "note": "Atlanta suburbs",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Georgia"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Georgia",
+  "votes_2024": 401369
  },
  {
   "id": "gwinnett_ga",
@@ -87,7 +95,8 @@
   "group": "Suburban",
   "margin_2024": 16.52,
   "note": "Atlanta suburbs; large Hispanic and Asian share",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Georgia"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Georgia",
+  "votes_2024": 420681
  },
  {
   "id": "pinellas_fl",
@@ -97,7 +106,8 @@
   "group": "Working-class",
   "margin_2024": -5.23,
   "note": "St. Petersburg/Clearwater; long-run Florida bellwether",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Florida"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Florida",
+  "votes_2024": 517058
  },
  {
   "id": "miamidade_fl",
@@ -107,7 +117,8 @@
   "group": "Hispanic",
   "margin_2024": -11.45,
   "note": "~70% Hispanic; biggest 2024 swing to the GOP",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Florida"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Florida",
+  "votes_2024": 1094093
  },
  {
   "id": "osceola_fl",
@@ -117,7 +128,8 @@
   "group": "Hispanic",
   "margin_2024": -1.45,
   "note": "Majority-Hispanic, heavily Puerto Rican",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Florida"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Florida",
+  "votes_2024": 172776
  },
  {
   "id": "nash_nc",
@@ -127,7 +139,8 @@
   "group": "Working-class",
   "margin_2024": -1.76,
   "note": "Rocky Mount; mixed rural/suburban swing county",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_North_Carolina"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_North_Carolina",
+  "votes_2024": 52364
  },
  {
   "id": "erie_pa",
@@ -137,7 +150,8 @@
   "group": "Working-class",
   "margin_2024": -1.02,
   "note": "Obama-Trump-Biden-Trump county",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Pennsylvania"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Pennsylvania",
+  "votes_2024": 137595
  },
  {
   "id": "northampton_pa",
@@ -147,7 +161,8 @@
   "group": "Working-class",
   "margin_2024": -1.78,
   "note": "Lehigh Valley; Obama-Trump-Biden-Trump county",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Pennsylvania"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Pennsylvania",
+  "votes_2024": 178215
  },
  {
   "id": "bucks_pa",
@@ -157,6 +172,7 @@
   "group": "Suburban",
   "margin_2024": -0.07,
   "note": "Philadelphia suburbs (PA-1)",
-  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Pennsylvania"
+  "source": "https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Pennsylvania",
+  "votes_2024": 401028
  }
 ]

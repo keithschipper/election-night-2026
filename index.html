@@ -58,13 +58,15 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .lx-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 .lx ol { padding-left: 1.2rem; }
+.lx-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: var(--cds-font-size-caption); color: var(--color-fg); cursor: pointer; }
+.lx-to { color: var(--color-fg-muted); }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 
 <script>
 (() => {
   const FILES = { bellwethers: 'data/bellwethers.json', targets: 'data/targets.json', live_results: 'data/live_results.json', race_results: 'data/race_results.json' };
-  const DEFAULTS = {"m_hamilton_in": null, "m_vigo_in": null, "m_loudoun_va": null, "m_princewilliam_va": null, "m_henrico_va": null, "m_chesterfield_va": null, "m_vabeach_va": null, "m_cobb_ga": null, "m_gwinnett_ga": null, "m_pinellas_fl": null, "m_miamidade_fl": null, "m_osceola_fl": null, "m_nash_nc": null, "m_erie_pa": null, "m_northampton_pa": null, "m_bucks_pa": null, "adj_mi_sen": 0, "adj_nv_03": 0, "adj_nv_gov": 0, "adj_mi_ag": 0, "adj_nv_ag": 0};
+  const DEFAULTS = {"m_hamilton_in": null, "m_vigo_in": null, "m_loudoun_va": null, "m_princewilliam_va": null, "m_henrico_va": null, "m_chesterfield_va": null, "m_vabeach_va": null, "m_cobb_ga": null, "m_gwinnett_ga": null, "m_pinellas_fl": null, "m_miamidade_fl": null, "m_osceola_fl": null, "m_nash_nc": null, "m_erie_pa": null, "m_northampton_pa": null, "m_bucks_pa": null, "adj_mi_sen": 0, "adj_nv_03": 0, "adj_nv_gov": 0, "adj_mi_ag": 0, "adj_nv_ag": 0, "turnout_adj": true, "demo_to": null};
   const store = {}; Object.keys(FILES).forEach((k) => store[k] = { status: 'loading', data: [] });
   let params = { ...DEFAULTS };
   try { const saved = JSON.parse(localStorage.getItem('lx-params') || 'null'); if (saved) params = { ...DEFAULTS, ...saved }; } catch (e) {}
@@ -94,13 +96,15 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <main class="page">
 <div class="lx">
   <h1 id="top">Election night bellwether model</h1>
-  <p class="lx-take" id="takeaway" data-source="bellwethers targets live_results race_results">Enter early county results below to project the three races.</p>
+  <p class="lx-take" id="takeaway" data-source="bellwethers targets live_results race_results">Enter early county results below to project the five races.</p>
 
   <div class="lx-bar">
-    <button class="lx-clear" type="button">Clear typed results</button>
+    <label class="lx-toggle"><input type="checkbox" id="turnout-toggle" checked> Adjust weights for turnout</label>
+    <button class="lx-clear" type="button">Clear typed results &amp; demos</button>
     <button class="lx-demo" data-shift="4" type="button">Demo: uniform D+4 swing</button>
     <button class="lx-demo" data-shift="-2" type="button">Demo: uniform R+2 swing</button>
-    <span class="lx-muted">Demo buttons fill every county with a made-up result so you can see how the model reacts.</span>
+    <button class="lx-demo-to" type="button">Demo: suburbs turn out 15% stronger</button>
+    <span class="lx-muted">Demo buttons fill in made-up results so you can see how the model reacts. Try a swing demo together with the turnout demo.</span>
   </div>
 
   <h2 id="projections">Projections</h2>
@@ -116,7 +120,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
   <h2 id="enter">Enter results</h2>
   <div class="lx-card">
     <p class="lx-live" id="live-status" data-source="live_results">—</p>
-    <p class="lx-muted">From election night, Decision Desk HQ margins fill in automatically every 30 minutes (6 PM ET Nov 3 to 6 PM ET Nov 6). Anything you type overrides the automatic value for that county; clear the box to go back to it. Type a margin as <b>D+4.2</b>, <b>R+3</b>, or a signed number (positive = Democrat ahead). Wait until most of a county is counted, and remember early votes and Election Day votes can lean very differently. Rows are in poll-closing order (Eastern time). Margin 2024 is the presidential result, Democrat minus Republican, in points.</p>
+    <p class="lx-muted">From election night, Decision Desk HQ margins fill in automatically once an hour, at five past (6:05 PM ET Nov 3 through 6:05 PM ET Nov 6). Anything you type overrides the automatic value for that county; clear the box to go back to it. Type a margin as <b>D+4.2</b>, <b>R+3</b>, or a signed number (positive = Democrat ahead). Wait until most of a county is counted, and remember early votes and Election Day votes can lean very differently. Rows are in poll-closing order (Eastern time). Margin 2024 is the presidential result, Democrat minus Republican, in points.</p>
     <div class="lx-tablewrap">
       <table id="entry-table" data-source="bellwethers" data-row-key="id">
         <thead><tr>
@@ -127,6 +131,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
           <th data-field="margin_2024" class="num">Margin 2024</th>
           <th class="num">2026 margin</th>
           <th class="num">Swing</th>
+          <th class="num">Turnout vs 2024</th>
           <th>Source</th>
           <th data-field="note">Why watch</th>
         </tr></thead>
@@ -141,6 +146,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       <li>For each county you enter, the <b>swing</b> is its 2026 margin minus its 2024 presidential margin.</li>
       <li>Counties are grouped as suburban, working-class/swing, or Hispanic-heavy, and each group's swings are averaged. A group with nothing reported yet uses the average of all counties entered.</li>
       <li>Each race applies a weighted mix of those group swings to its 2024 presidential baseline. The weights are my judgment about each electorate (Michigan leans on suburban and working-class voters; Nevada more on Hispanic voters) and are listed on each card.</li>
+      <li><b>Turnout adjustment.</b> Decision Desk projects each county's final 2026 vote; divided by the county's 2024 total, that gives a turnout ratio (the Turnout vs 2024 column). If one group's counties are running ahead of the others, that group's weight rises in proportion, and falls if it's behind. The tilt is small at first and reaches full strength once a group has about one county's worth of vote counted. Each group's tilt is capped at &minus;20% to +25%, and it needs counties from at least two groups. It uses Decision Desk numbers only, not results you type, and you can switch it off with the checkbox above. Indiana's two counties are read from House races, which draw a few percent fewer votes than the top of the ticket, so their turnout reads slightly low.</li>
       <li>The <b>candidate adjustment</b> slider adds anything the swing can't see, such as incumbency or a weak nominee. It starts at zero.</li>
       <li>Uncertainty combines a fixed 3-point error with the spread of the swings you've entered, shrinking as more counties report. The win chance and 80% range come from that.</li>
       <li>Once Decision Desk reports a race's own count, the projection blends that count with the model, giving the count more weight as the share of expected vote grows (weight = share<sup>1.5</sup>, so 50% in is about a third count, two-thirds model). The early count can mislead: mail and early votes are often counted first, and Nevada keeps counting mail ballots for days.</li>
@@ -178,6 +184,40 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     return { rep, n, overall, gs, sigma };
   };
 
+  // Turnout: projected 2026 county vote (Decision Desk) / 2024 county vote, compared across groups.
+  window.lxTurnout = (bell, live, params) => {
+    let rows = bell.map((r) => {
+      const L = live[r.id]; const v24 = Number(r.votes_2024);
+      if (!L || !(v24 > 0)) return null;
+      const votes = Number(L.votes) || 0, ev = Number(L.expected_votes) || 0;
+      if (!(votes > 0) || !(ev > 0)) return null;
+      const proj = Math.max(votes, ev);
+      return { id: r.id, group: r.group, ti: proj / v24, frac: Math.min(1, votes / proj) };
+    }).filter(Boolean);
+    let demo = false;
+    const dm = Number(params.demo_to);
+    if (!rows.length && params.demo_to != null && dm > 0) {
+      demo = true;
+      rows = bell.map((r) => ({ id: r.id, group: r.group, ti: 0.72 * (r.group === 'Suburban' ? dm : 1), frac: 1 }));
+    }
+    const out = { rows, byId: {}, r: {}, gi: {}, active: false, demo };
+    rows.forEach((x) => { out.byId[x.id] = x; });
+    GROUPS.forEach((g) => { out.r[g] = 1; });
+    GROUPS.forEach((g) => {
+      const xs = rows.filter((x) => x.group === g); const fs = d3.sum(xs, (x) => x.frac);
+      if (fs > 0) out.gi[g] = { ti: d3.sum(xs, (x) => x.ti * x.frac) / fs, fs };
+    });
+    const have = Object.values(out.gi);
+    if (rows.length < 2 || have.length < 2) return out;
+    const ref = d3.mean(have, (x) => x.ti);
+    GROUPS.forEach((g) => {
+      const x = out.gi[g]; if (!x) return;
+      out.r[g] = Math.min(1.25, Math.max(0.8, 1 + (x.ti / ref - 1) * Math.min(1, x.fs)));
+    });
+    out.active = true;
+    return out;
+  };
+
   // Inputs
   const tbody = document.querySelector('#entry-table tbody');
   tbody.addEventListener('change', (e) => {
@@ -188,6 +228,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     dash.setParams({ ['m_' + inp.dataset.id]: v == null ? null : Math.round(v * 100) / 100 });
   });
   document.querySelector('.lx-clear').addEventListener('click', () => dash.resetParams());
+  document.getElementById('turnout-toggle').addEventListener('change', (e) => dash.setParams({ turnout_adj: e.target.checked }));
+  document.querySelector('.lx-demo-to').addEventListener('click', () => dash.setParams({ demo_to: 1.15 }));
   document.querySelectorAll('.lx-demo').forEach((b) => b.addEventListener('click', () => {
     const d = dash.data('bellwethers'); if (d.status !== 'ok') return;
     const shift = Number(b.dataset.shift); const p = {};
@@ -229,6 +271,11 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     const eff = { ...params };
     bell.forEach((r) => { if (typeof params['m_' + r.id] !== 'number' && live[r.id]) eff['m_' + r.id] = live[r.id].d_margin; });
     const M = window.lxModel(bell, eff);
+    const turnOn = params.turnout_adj !== false;
+    const TO = window.lxTurnout(bell, live, params);
+    document.getElementById('turnout-toggle').checked = turnOn;
+    const pct = d3.format('.0%');
+    const GL = { Suburban: 'suburban', 'Working-class': 'working-class', Hispanic: 'Hispanic' };
 
     const RR = dash.data('race_results');
     const raceRes = {};
@@ -244,6 +291,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       ls.textContent = n
         ? 'Decision Desk results: ' + n + ' of ' + bell.length + ' counties, last updated ' + (last ? fmtT(last) : '—') + '.'
         : (last ? 'Decision Desk results: none readable yet as of ' + fmtT(last) + '.' : 'Decision Desk results: none yet. The first automatic update runs Nov 3 at 6 PM ET.');
+      if (Object.keys(TO.gi).length && !TO.demo) ls.textContent += ' Projected turnout vs 2024: ' + GROUPS.filter((g) => TO.gi[g]).map((g) => GL[g] + ' ' + pct(TO.gi[g].ti)).join(', ') + (turnOn ? (TO.active ? '.' : ' (weights adjust once two groups report).') : ' (turnout adjustment off).');
     } else {
       ls.textContent = L.status === 'error' ? 'Decision Desk results failed to load; typed results still work.' : '—';
     }
@@ -255,7 +303,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
         const tr = el('tr'); tr.dataset.key = r.id;
         const c1 = el('td'); const dot = el('span', 'lx-dot'); dot.style.background = groupColor(r.group); c1.append(dot, document.createTextNode(r.place));
         const inTd = el('td', 'num'); const inp = el('input', 'lx-in'); inp.dataset.id = r.id; inp.setAttribute('aria-label', '2026 margin in ' + r.place); inp.placeholder = 'D+0.0'; inTd.append(inp);
-        tr.append(c1, el('td', null, r.state), el('td', null, r.close_et), el('td', null, r.group), el('td', 'num', String(r.margin_2024)), inTd, el('td', 'num lx-sw'), el('td', 'lx-src'), el('td', 'lx-note', r.note));
+        tr.append(c1, el('td', null, r.state), el('td', null, r.close_et), el('td', null, r.group), el('td', 'num', String(r.margin_2024)), inTd, el('td', 'num lx-sw'), el('td', 'num lx-to'), el('td', 'lx-src'), el('td', 'lx-note', r.note));
         return tr;
       }));
     }
@@ -268,11 +316,18 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       const sw = tr.querySelector('.lx-sw');
       if (typeof v === 'number') { const s = v - r.margin_2024; sw.textContent = signed(s); sw.className = 'num lx-sw ' + (s >= 0 ? 'lx-d' : 'lx-r'); }
       else { sw.textContent = ''; sw.className = 'num lx-sw'; }
+      const to = TO.byId[r.id];
+      tr.querySelector('.lx-to').textContent = to ? pct(to.ti) + (TO.demo ? ' (demo)' : '') : '';
     });
 
     // Race cards
     const results = T.data.map((t) => {
-      const w = { Suburban: Number(t.w_suburban), 'Working-class': Number(t.w_working), Hispanic: Number(t.w_hispanic) };
+      const w0 = { Suburban: Number(t.w_suburban), 'Working-class': Number(t.w_working), Hispanic: Number(t.w_hispanic) };
+      let w = w0;
+      if (turnOn && TO.active) {
+        const raw = GROUPS.map((g) => w0[g] * TO.r[g]); const tot = d3.sum(raw);
+        if (tot > 0) w = Object.fromEntries(GROUPS.map((g, i) => [g, raw[i] / tot]));
+      }
       const swing = M.n ? GROUPS.reduce((a, g) => a + w[g] * M.gs[g], 0) : 0;
       const adj = Number(eff['adj_' + t.race] ?? 0) || 0;
       const model = Number(t.baseline_margin) + swing + adj;
@@ -283,7 +338,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       const margin = counted == null ? model : wt * counted + (1 - wt) * model;
       const sigma = Math.max(0.3, Math.sqrt(Math.pow((1 - wt) * M.sigma, 2) + Math.pow(2.5 * (1 - frac), 2) * (rr ? 1 : 0)));
       const pD = phi(margin / sigma);
-      return { t, w, swing, adj, model, rr, frac, counted, margin, sigma, pD, lo: margin - 1.2816 * sigma, hi: margin + 1.2816 * sigma };
+      return { t, w, w0, swing, adj, model, rr, frac, counted, margin, sigma, pD, lo: margin - 1.2816 * sigma, hi: margin + 1.2816 * sigma };
     });
     const activeRange = document.activeElement && document.activeElement.type === 'range' ? document.activeElement.dataset.race : null;
     if (!activeRange) {
@@ -306,7 +361,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
         const range = el('p', 'lx-kv'); range.append('80% range: ', el('b', null, signed(R.lo) + ' to ' + signed(R.hi)));
         const base = el('p', 'lx-kv'); base.append('Baseline: '); const bl = el('span', null, t.baseline_label); bl.dataset.source = 'targets'; bl.dataset.field = 'baseline_label'; bl.dataset.where = 'race=' + t.race; base.append(bl);
         const ref = el('p', 'lx-kv'); ref.append('For reference: '); const rl = el('span', null, t.ref_label); rl.dataset.source = 'targets'; rl.dataset.field = 'ref_label'; rl.dataset.where = 'race=' + t.race; ref.append(rl);
-        const sw = el('p', 'lx-kv'); sw.append('Weighted swing applied: ', el('b', null, M.n ? signed(R.swing) : '—'), ' · weights suburban ' + d3.format('.0%')(R.w.Suburban) + ', working-class ' + d3.format('.0%')(R.w['Working-class']) + ', Hispanic ' + d3.format('.0%')(R.w.Hispanic));
+        const tilted = turnOn && TO.active;
+        const wtxt = GROUPS.map((g) => { const a = pct(R.w0[g]), b = pct(R.w[g]); return GL[g] + ' ' + (a === b ? a : a + ' → ' + b); }).join(', ');
+        const sw = el('p', 'lx-kv'); sw.append('Weighted swing applied: ', el('b', null, M.n ? signed(R.swing) : '—'), ' · weights ' + wtxt + (tilted ? (TO.demo ? ' (turnout-adjusted, demo)' : ' (turnout-adjusted)') : ''));
         const adj = el('label', 'lx-adj'); adj.append('Candidate adjustment');
         const s = el('input'); s.type = 'range'; s.min = -6; s.max = 6; s.step = 0.5; s.value = R.adj; s.dataset.race = t.race; s.setAttribute('aria-label', 'Candidate adjustment for ' + t.title);
         adj.append(s, el('output', null, R.adj ? signed(R.adj) : '0'));
@@ -319,7 +376,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     // Takeaway
     take.textContent = M.n
       ? M.n + ' of ' + bell.length + ' bellwethers entered, average swing ' + signed(M.overall) + ' from 2024. ' + results.map((R) => R.t.title + ': ' + (R.margin >= 0 ? R.t.dem : R.t.rep) + ' +' + fmt1(Math.abs(R.margin))).join(' · ')
-      : 'No results entered yet. Fill in counties as they report (from 6 PM ET in Indiana) and the three projections update.';
+      : 'No results entered yet. Fill in counties as they report (from 6 PM ET in Indiana) and the five projections update.';
 
     // Swing chart
     chart.replaceChildren();
