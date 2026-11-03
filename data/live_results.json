@@ -1,1 +1,4 @@
-[{"id":"_run","race":null,"d_margin":null,"leader_text":null,"votes":0,"fetched_at":"2026-10-13T18:10:55Z"}]
+[
+ {"id": "_run", "race": null, "d_margin": null, "leader_text": null, "votes": 0, "fetched_at": "2026-11-03T23:56:33Z"},
+ {"id": "hamilton_in", "race": "IN-5 House", "d_margin": 27.14, "leader_text": null, "votes": 77931, "expected_votes": 138137, "fetched_at": "2026-11-03T23:56:33Z"}
+]
