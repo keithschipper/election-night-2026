@@ -5,7 +5,7 @@
   "d_margin": null,
   "leader_text": null,
   "votes": 0,
-  "fetched_at": "2026-11-04T00:46:20Z"
+  "fetched_at": "2026-11-04T00:50:49Z"
  },
  {
   "id": "hamilton_in",
@@ -14,7 +14,7 @@
   "leader_text": null,
   "votes": 97637,
   "expected_votes": 138137,
-  "fetched_at": "2026-11-04T00:46:20Z"
+  "fetched_at": "2026-11-04T00:50:49Z"
  },
  {
   "id": "vabeach_va",
@@ -23,7 +23,7 @@
   "leader_text": null,
   "votes": 14071,
   "expected_votes": 173971,
-  "fetched_at": "2026-11-04T00:46:20Z"
+  "fetched_at": "2026-11-04T00:50:49Z"
  },
  {
   "id": "princewilliam_va",
@@ -32,16 +32,16 @@
   "leader_text": null,
   "votes": 70355,
   "expected_votes": 170209,
-  "fetched_at": "2026-11-04T00:46:20Z"
+  "fetched_at": "2026-11-04T00:50:49Z"
  },
  {
   "id": "loudoun_va",
   "race": "VA Senate",
-  "d_margin": 29.82,
+  "d_margin": 29.92,
   "leader_text": null,
-  "votes": 93615,
+  "votes": 94992,
   "expected_votes": 172732,
-  "fetched_at": "2026-11-04T00:46:20Z"
+  "fetched_at": "2026-11-04T00:50:49Z"
  },
  {
   "id": "osceola_fl",
@@ -50,25 +50,25 @@
   "leader_text": null,
   "votes": 122984,
   "expected_votes": 132722,
-  "fetched_at": "2026-11-04T00:46:20Z"
+  "fetched_at": "2026-11-04T00:50:49Z"
  },
  {
   "id": "pinellas_fl",
   "race": "FL Governor",
-  "d_margin": 4.58,
+  "d_margin": 4.44,
   "leader_text": null,
-  "votes": 386208,
+  "votes": 389983,
   "expected_votes": 413505,
-  "fetched_at": "2026-11-04T00:46:20Z"
+  "fetched_at": "2026-11-04T00:50:49Z"
  },
  {
   "id": "miamidade_fl",
   "race": "FL Governor",
-  "d_margin": 8.06,
+  "d_margin": 7.25,
   "leader_text": null,
-  "votes": 643361,
+  "votes": 733443,
   "expected_votes": 798553,
-  "fetched_at": "2026-11-04T00:46:20Z"
+  "fetched_at": "2026-11-04T00:50:49Z"
  },
  {
   "id": "gwinnett_ga",
@@ -77,6 +77,6 @@
   "leader_text": null,
   "votes": 237320,
   "expected_votes": 327165,
-  "fetched_at": "2026-11-04T00:46:20Z"
+  "fetched_at": "2026-11-04T00:50:49Z"
  }
 ]
