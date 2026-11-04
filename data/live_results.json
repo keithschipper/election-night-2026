@@ -1,4 +1,73 @@
 [
- {"id": "_run", "race": null, "d_margin": null, "leader_text": null, "votes": 0, "fetched_at": "2026-11-03T23:56:33Z"},
- {"id": "hamilton_in", "race": "IN-5 House", "d_margin": 27.14, "leader_text": null, "votes": 77931, "expected_votes": 138137, "fetched_at": "2026-11-03T23:56:33Z"}
+ {
+  "id": "_run",
+  "race": null,
+  "d_margin": null,
+  "leader_text": null,
+  "votes": 0,
+  "fetched_at": "2026-11-04T00:24:43Z"
+ },
+ {
+  "id": "hamilton_in",
+  "race": "IN-5 House",
+  "d_margin": 24.54,
+  "votes": 82177,
+  "expected_votes": 138137,
+  "leader_text": null,
+  "fetched_at": "2026-11-04T00:24:43Z"
+ },
+ {
+  "id": "vabeach_va",
+  "race": "VA Senate",
+  "d_margin": 8.16,
+  "votes": 1202,
+  "expected_votes": 173971,
+  "leader_text": null,
+  "fetched_at": "2026-11-04T00:24:43Z"
+ },
+ {
+  "id": "princewilliam_va",
+  "race": "VA Senate",
+  "d_margin": 27.82,
+  "votes": 1815,
+  "expected_votes": 170209,
+  "leader_text": null,
+  "fetched_at": "2026-11-04T00:24:43Z"
+ },
+ {
+  "id": "loudoun_va",
+  "race": "VA Senate",
+  "d_margin": 30.36,
+  "votes": 66377,
+  "expected_votes": 172732,
+  "leader_text": null,
+  "fetched_at": "2026-11-04T00:24:43Z"
+ },
+ {
+  "id": "osceola_fl",
+  "race": "FL Governor",
+  "d_margin": 24.08,
+  "votes": 90368,
+  "expected_votes": 132836,
+  "leader_text": null,
+  "fetched_at": "2026-11-04T00:24:43Z"
+ },
+ {
+  "id": "pinellas_fl",
+  "race": "FL Governor",
+  "d_margin": 6.01,
+  "votes": 341277,
+  "expected_votes": 413861,
+  "leader_text": null,
+  "fetched_at": "2026-11-04T00:24:43Z"
+ },
+ {
+  "id": "miamidade_fl",
+  "race": "FL Governor",
+  "d_margin": 10.29,
+  "votes": 540167,
+  "expected_votes": 799241,
+  "leader_text": null,
+  "fetched_at": "2026-11-04T00:24:43Z"
+ }
 ]
