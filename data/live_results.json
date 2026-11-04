@@ -5,7 +5,7 @@
   "d_margin": null,
   "leader_text": null,
   "votes": 0,
-  "fetched_at": "2026-11-04T00:50:49Z"
+  "fetched_at": "2026-11-04T01:00:28Z"
  },
  {
   "id": "hamilton_in",
@@ -14,34 +14,34 @@
   "leader_text": null,
   "votes": 97637,
   "expected_votes": 138137,
-  "fetched_at": "2026-11-04T00:50:49Z"
+  "fetched_at": "2026-11-04T01:00:28Z"
  },
  {
   "id": "vabeach_va",
   "race": "VA Senate",
-  "d_margin": -3.7,
+  "d_margin": 2.38,
   "leader_text": null,
-  "votes": 14071,
-  "expected_votes": 173971,
-  "fetched_at": "2026-11-04T00:50:49Z"
+  "votes": 16666,
+  "expected_votes": 173345,
+  "fetched_at": "2026-11-04T01:00:28Z"
  },
  {
   "id": "princewilliam_va",
   "race": "VA Senate",
-  "d_margin": 43.36,
+  "d_margin": 47.34,
   "leader_text": null,
-  "votes": 70355,
-  "expected_votes": 170209,
-  "fetched_at": "2026-11-04T00:50:49Z"
+  "votes": 91291,
+  "expected_votes": 169597,
+  "fetched_at": "2026-11-04T01:00:28Z"
  },
  {
   "id": "loudoun_va",
   "race": "VA Senate",
-  "d_margin": 29.92,
+  "d_margin": 35.7,
   "leader_text": null,
-  "votes": 94992,
-  "expected_votes": 172732,
-  "fetched_at": "2026-11-04T00:50:49Z"
+  "votes": 156260,
+  "expected_votes": 172111,
+  "fetched_at": "2026-11-04T01:00:28Z"
  },
  {
   "id": "osceola_fl",
@@ -49,17 +49,17 @@
   "d_margin": 18.58,
   "leader_text": null,
   "votes": 122984,
-  "expected_votes": 132722,
-  "fetched_at": "2026-11-04T00:50:49Z"
+  "expected_votes": 132738,
+  "fetched_at": "2026-11-04T01:00:28Z"
  },
  {
   "id": "pinellas_fl",
   "race": "FL Governor",
-  "d_margin": 4.44,
+  "d_margin": 4.63,
   "leader_text": null,
-  "votes": 389983,
-  "expected_votes": 413505,
-  "fetched_at": "2026-11-04T00:50:49Z"
+  "votes": 396275,
+  "expected_votes": 413554,
+  "fetched_at": "2026-11-04T01:00:28Z"
  },
  {
   "id": "miamidade_fl",
@@ -67,8 +67,8 @@
   "d_margin": 7.25,
   "leader_text": null,
   "votes": 733443,
-  "expected_votes": 798553,
-  "fetched_at": "2026-11-04T00:50:49Z"
+  "expected_votes": 798649,
+  "fetched_at": "2026-11-04T01:00:28Z"
  },
  {
   "id": "gwinnett_ga",
@@ -77,6 +77,24 @@
   "leader_text": null,
   "votes": 237320,
   "expected_votes": 327165,
-  "fetched_at": "2026-11-04T00:50:49Z"
+  "fetched_at": "2026-11-04T01:00:28Z"
+ },
+ {
+  "id": "chesterfield_va",
+  "race": "VA Senate",
+  "d_margin": 16.36,
+  "leader_text": null,
+  "votes": 62567,
+  "expected_votes": 174406,
+  "fetched_at": "2026-11-04T01:00:28Z"
+ },
+ {
+  "id": "henrico_va",
+  "race": "VA Senate",
+  "d_margin": 51.5,
+  "leader_text": null,
+  "votes": 51605,
+  "expected_votes": 152471,
+  "fetched_at": "2026-11-04T01:00:28Z"
  }
 ]
