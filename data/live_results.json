@@ -5,96 +5,150 @@
   "d_margin": null,
   "leader_text": null,
   "votes": 0,
-  "fetched_at": "2026-11-04T01:00:28Z"
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "id": "hamilton_in",
   "race": "IN-5 House",
-  "d_margin": 18.88,
+  "d_margin": 13.18,
   "leader_text": null,
-  "votes": 97637,
+  "votes": 121305,
   "expected_votes": 138137,
-  "fetched_at": "2026-11-04T01:00:28Z"
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "id": "vabeach_va",
   "race": "VA Senate",
-  "d_margin": 2.38,
+  "d_margin": 16.52,
   "leader_text": null,
-  "votes": 16666,
-  "expected_votes": 173345,
-  "fetched_at": "2026-11-04T01:00:28Z"
+  "votes": 178880,
+  "expected_votes": 178880,
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "id": "princewilliam_va",
   "race": "VA Senate",
-  "d_margin": 47.34,
+  "d_margin": 42.84,
   "leader_text": null,
-  "votes": 91291,
-  "expected_votes": 169597,
-  "fetched_at": "2026-11-04T01:00:28Z"
+  "votes": 181003,
+  "expected_votes": 181003,
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "id": "loudoun_va",
   "race": "VA Senate",
-  "d_margin": 35.7,
+  "d_margin": 37.9,
   "leader_text": null,
-  "votes": 156260,
-  "expected_votes": 172111,
-  "fetched_at": "2026-11-04T01:00:28Z"
+  "votes": 180532,
+  "expected_votes": 185406,
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "id": "osceola_fl",
   "race": "FL Governor",
-  "d_margin": 18.58,
+  "d_margin": 17.77,
   "leader_text": null,
-  "votes": 122984,
-  "expected_votes": 132738,
-  "fetched_at": "2026-11-04T01:00:28Z"
+  "votes": 131438,
+  "expected_votes": 132771,
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "id": "pinellas_fl",
   "race": "FL Governor",
-  "d_margin": 4.63,
+  "d_margin": 4.45,
   "leader_text": null,
-  "votes": 396275,
-  "expected_votes": 413554,
-  "fetched_at": "2026-11-04T01:00:28Z"
+  "votes": 400211,
+  "expected_votes": 413657,
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "id": "miamidade_fl",
   "race": "FL Governor",
-  "d_margin": 7.25,
+  "d_margin": 7.09,
   "leader_text": null,
-  "votes": 733443,
-  "expected_votes": 798649,
-  "fetched_at": "2026-11-04T01:00:28Z"
+  "votes": 773042,
+  "expected_votes": 798847,
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "id": "gwinnett_ga",
   "race": "GA Senate",
   "d_margin": 47.5,
   "leader_text": null,
-  "votes": 237320,
+  "votes": 239185,
   "expected_votes": 327165,
-  "fetched_at": "2026-11-04T01:00:28Z"
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "id": "chesterfield_va",
   "race": "VA Senate",
-  "d_margin": 16.36,
+  "d_margin": 16.94,
   "leader_text": null,
-  "votes": 62567,
-  "expected_votes": 174406,
-  "fetched_at": "2026-11-04T01:00:28Z"
+  "votes": 81200,
+  "expected_votes": 174489,
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "id": "henrico_va",
   "race": "VA Senate",
-  "d_margin": 51.5,
+  "d_margin": 42.48,
   "leader_text": null,
-  "votes": 51605,
-  "expected_votes": 152471,
-  "fetched_at": "2026-11-04T01:00:28Z"
+  "votes": 131101,
+  "expected_votes": 152544,
+  "fetched_at": "2026-11-04T01:55:59Z"
+ },
+ {
+  "id": "vigo_in",
+  "race": "IN-8 House",
+  "d_margin": 17.94,
+  "leader_text": null,
+  "votes": 15600,
+  "expected_votes": 28814,
+  "fetched_at": "2026-11-04T01:55:59Z"
+ },
+ {
+  "id": "cobb_ga",
+  "race": "GA Senate",
+  "d_margin": 39.74,
+  "leader_text": null,
+  "votes": 225592,
+  "expected_votes": 339150,
+  "fetched_at": "2026-11-04T01:55:59Z"
+ },
+ {
+  "id": "nash_nc",
+  "race": "NC Senate",
+  "d_margin": 20.17,
+  "leader_text": null,
+  "votes": 31551,
+  "expected_votes": 41380,
+  "fetched_at": "2026-11-04T01:55:59Z"
+ },
+ {
+  "id": "northampton_pa",
+  "race": "PA Governor",
+  "d_margin": 60.32,
+  "leader_text": null,
+  "votes": 33460,
+  "expected_votes": 142077,
+  "fetched_at": "2026-11-04T01:55:59Z"
+ },
+ {
+  "id": "bucks_pa",
+  "race": "PA Governor",
+  "d_margin": 55.52,
+  "leader_text": null,
+  "votes": 79587,
+  "expected_votes": 341425,
+  "fetched_at": "2026-11-04T01:55:59Z"
+ },
+ {
+  "id": "erie_pa",
+  "race": "PA Governor",
+  "d_margin": 67.24,
+  "leader_text": null,
+  "votes": 21686,
+  "expected_votes": 114441,
+  "fetched_at": "2026-11-04T01:55:59Z"
  }
 ]

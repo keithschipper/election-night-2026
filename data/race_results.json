@@ -1,14 +1,14 @@
 [
  {
   "race": "mi_sen",
-  "d_name": null,
-  "r_name": null,
-  "d_votes": null,
-  "r_votes": null,
-  "d_margin": null,
-  "total_votes": 0,
-  "expected_votes": null,
-  "fetched_at": null
+  "d_name": "El-Sayed",
+  "r_name": "Rogers",
+  "d_votes": 318971,
+  "r_votes": 235429,
+  "d_margin": 14.83,
+  "total_votes": 563174,
+  "expected_votes": 4975256,
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "race": "nv_03",
@@ -34,14 +34,14 @@
  },
  {
   "race": "mi_ag",
-  "d_name": null,
-  "r_name": null,
-  "d_votes": null,
-  "r_votes": null,
-  "d_margin": null,
-  "total_votes": 0,
-  "expected_votes": null,
-  "fetched_at": null
+  "d_name": "Savit",
+  "r_name": "Lloyd",
+  "d_votes": 274583,
+  "r_votes": 201722,
+  "d_margin": 14.97,
+  "total_votes": 486693,
+  "expected_votes": 4726491,
+  "fetched_at": "2026-11-04T01:55:59Z"
  },
  {
   "race": "nv_ag",
