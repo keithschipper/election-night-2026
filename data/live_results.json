@@ -5,16 +5,16 @@
   "d_margin": null,
   "leader_text": null,
   "votes": 0,
-  "fetched_at": "2026-11-04T00:39:30Z"
+  "fetched_at": "2026-11-04T00:46:20Z"
  },
  {
   "id": "hamilton_in",
   "race": "IN-5 House",
-  "d_margin": 24.54,
+  "d_margin": 18.88,
   "leader_text": null,
-  "votes": 82177,
+  "votes": 97637,
   "expected_votes": 138137,
-  "fetched_at": "2026-11-04T00:39:30Z"
+  "fetched_at": "2026-11-04T00:46:20Z"
  },
  {
   "id": "vabeach_va",
@@ -23,7 +23,7 @@
   "leader_text": null,
   "votes": 14071,
   "expected_votes": 173971,
-  "fetched_at": "2026-11-04T00:39:30Z"
+  "fetched_at": "2026-11-04T00:46:20Z"
  },
  {
   "id": "princewilliam_va",
@@ -32,34 +32,34 @@
   "leader_text": null,
   "votes": 70355,
   "expected_votes": 170209,
-  "fetched_at": "2026-11-04T00:39:30Z"
+  "fetched_at": "2026-11-04T00:46:20Z"
  },
  {
   "id": "loudoun_va",
   "race": "VA Senate",
-  "d_margin": 29.78,
+  "d_margin": 29.82,
   "leader_text": null,
-  "votes": 90078,
+  "votes": 93615,
   "expected_votes": 172732,
-  "fetched_at": "2026-11-04T00:39:30Z"
+  "fetched_at": "2026-11-04T00:46:20Z"
  },
  {
   "id": "osceola_fl",
   "race": "FL Governor",
-  "d_margin": 20.33,
+  "d_margin": 18.58,
   "leader_text": null,
-  "votes": 107344,
-  "expected_votes": 132836,
-  "fetched_at": "2026-11-04T00:39:30Z"
+  "votes": 122984,
+  "expected_votes": 132722,
+  "fetched_at": "2026-11-04T00:46:20Z"
  },
  {
   "id": "pinellas_fl",
   "race": "FL Governor",
-  "d_margin": 4.71,
+  "d_margin": 4.58,
   "leader_text": null,
-  "votes": 382978,
-  "expected_votes": 413861,
-  "fetched_at": "2026-11-04T00:39:30Z"
+  "votes": 386208,
+  "expected_votes": 413505,
+  "fetched_at": "2026-11-04T00:46:20Z"
  },
  {
   "id": "miamidade_fl",
@@ -67,8 +67,8 @@
   "d_margin": 8.06,
   "leader_text": null,
   "votes": 643361,
-  "expected_votes": 799241,
-  "fetched_at": "2026-11-04T00:39:30Z"
+  "expected_votes": 798553,
+  "fetched_at": "2026-11-04T00:46:20Z"
  },
  {
   "id": "gwinnett_ga",
@@ -77,6 +77,6 @@
   "leader_text": null,
   "votes": 237320,
   "expected_votes": 327165,
-  "fetched_at": "2026-11-04T00:39:30Z"
+  "fetched_at": "2026-11-04T00:46:20Z"
  }
 ]
