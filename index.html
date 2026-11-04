@@ -66,7 +66,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <script>
 (() => {
   const FILES = { bellwethers: 'data/bellwethers.json', targets: 'data/targets.json', live_results: 'data/live_results.json', race_results: 'data/race_results.json' };
-  const DEFAULTS = {"m_hamilton_in": null, "m_vigo_in": null, "m_loudoun_va": null, "m_princewilliam_va": null, "m_henrico_va": null, "m_chesterfield_va": null, "m_vabeach_va": null, "m_cobb_ga": null, "m_gwinnett_ga": null, "m_pinellas_fl": null, "m_miamidade_fl": null, "m_osceola_fl": null, "m_nash_nc": null, "m_erie_pa": null, "m_northampton_pa": null, "m_bucks_pa": null, "adj_mi_sen": 0, "adj_nv_03": 0, "adj_nv_gov": 0, "adj_mi_ag": 0, "adj_nv_ag": 0, "turnout_adj": true, "demo_to": null};
+  const DEFAULTS = {"m_hamilton_in": null, "m_vigo_in": null, "m_loudoun_va": null, "m_princewilliam_va": null, "m_henrico_va": null, "m_chesterfield_va": null, "m_vabeach_va": null, "m_cobb_ga": null, "m_gwinnett_ga": null, "m_pinellas_fl": null, "m_miamidade_fl": null, "m_osceola_fl": null, "m_nash_nc": null, "m_erie_pa": null, "m_northampton_pa": null, "m_bucks_pa": null, "adj_mi_sen": 0, "adj_nv_03": 0, "adj_nv_gov": 0, "adj_mi_ag": 0, "adj_nv_ag": 0, "turnout_adj": true, "demo_to": null, "hold80": true};
   const store = {}; Object.keys(FILES).forEach((k) => store[k] = { status: 'loading', data: [] });
   let params = { ...DEFAULTS };
   try { const saved = JSON.parse(localStorage.getItem('lx-params') || 'null'); if (saved) params = { ...DEFAULTS, ...saved }; } catch (e) {}
@@ -100,6 +100,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 
   <div class="lx-bar">
     <label class="lx-toggle"><input type="checkbox" id="turnout-toggle" checked> Adjust weights for turnout</label>
+    <label class="lx-toggle"><input type="checkbox" id="hold-toggle" checked> Wait until 80% counted</label>
     <button class="lx-clear" type="button">Clear typed results &amp; demos</button>
     <button class="lx-demo" data-shift="4" type="button">Demo: uniform D+4 swing</button>
     <button class="lx-demo" data-shift="-2" type="button">Demo: uniform R+2 swing</button>
@@ -146,6 +147,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       <li>For each county you enter, the <b>swing</b> is its 2026 margin minus its 2024 presidential margin.</li>
       <li>Counties are grouped as suburban, working-class/swing, or Hispanic-heavy, and each group's swings are averaged. A group with nothing reported yet uses the average of all counties entered.</li>
       <li>Each race applies a weighted mix of those group swings to its 2024 presidential baseline. The weights are my judgment about each electorate (Michigan leans on suburban and working-class voters; Nevada more on Hispanic voters) and are listed on each card.</li>
+      <li><b>Waiting for 80%.</b> A county's Decision Desk margin only counts toward the swing once about 80% of its expected vote is in. Early and mail ballots are usually counted first and can lean very differently from the final result, so early partial counts would mislead. Counties still waiting show their current margin and share counted in the table, and they still feed the turnout adjustment. Untick the box above to use every partial count.</li>
       <li><b>Turnout adjustment.</b> Decision Desk projects each county's final 2026 vote; divided by the county's 2024 total, that gives a turnout ratio (the Turnout vs 2024 column). If one group's counties are running ahead of the others, that group's weight rises in proportion, and falls if it's behind. The tilt is small at first and reaches full strength once a group has about one county's worth of vote counted. Each group's tilt is capped at &minus;20% to +25%, and it needs counties from at least two groups. It uses Decision Desk numbers only, not results you type, and you can switch it off with the checkbox above. Indiana's two counties are read from House races, which draw a few percent fewer votes than the top of the ticket, so their turnout reads slightly low.</li>
       <li>The <b>candidate adjustment</b> slider adds anything the swing can't see, such as incumbency or a weak nominee. It starts at zero.</li>
       <li>Uncertainty combines a fixed 3-point error with the spread of the swings you've entered, shrinking as more counties report. The win chance and 80% range come from that.</li>
@@ -229,6 +231,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
   });
   document.querySelector('.lx-clear').addEventListener('click', () => dash.resetParams());
   document.getElementById('turnout-toggle').addEventListener('change', (e) => dash.setParams({ turnout_adj: e.target.checked }));
+  document.getElementById('hold-toggle').addEventListener('change', (e) => dash.setParams({ hold80: e.target.checked }));
   document.querySelector('.lx-demo-to').addEventListener('click', () => dash.setParams({ demo_to: 1.15 }));
   document.querySelectorAll('.lx-demo').forEach((b) => b.addEventListener('click', () => {
     const d = dash.data('bellwethers'); if (d.status !== 'ok') return;
@@ -267,12 +270,22 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     const L = dash.data('live_results');
     const liveRows = L.status === 'ok' && Array.isArray(L.data) ? L.data : [];
     const live = {};
-    liveRows.forEach((r) => { const v = Number(r.d_margin); if (r.d_margin !== null && r.d_margin !== '' && isFinite(v)) live[r.id] = { ...r, d_margin: v }; });
+    const hold = params.hold80 !== false;
+    document.getElementById('hold-toggle').checked = hold;
+    const liveAll = {}, held = {};
+    liveRows.forEach((r) => {
+      const v = Number(r.d_margin); if (r.d_margin === null || r.d_margin === '' || !isFinite(v)) return;
+      const ev = Number(r.expected_votes), vv = Number(r.votes);
+      const frac = ev > 0 && vv >= 0 ? Math.min(1, vv / ev) : null;
+      const row = { ...r, d_margin: v, frac };
+      liveAll[r.id] = row;
+      if (hold && frac != null && frac < 0.8) held[r.id] = row; else live[r.id] = row;
+    });
     const eff = { ...params };
     bell.forEach((r) => { if (typeof params['m_' + r.id] !== 'number' && live[r.id]) eff['m_' + r.id] = live[r.id].d_margin; });
     const M = window.lxModel(bell, eff);
     const turnOn = params.turnout_adj !== false;
-    const TO = window.lxTurnout(bell, live, params);
+    const TO = window.lxTurnout(bell, liveAll, params);
     document.getElementById('turnout-toggle').checked = turnOn;
     const pct = d3.format('.0%');
     const GL = { Suburban: 'suburban', 'Working-class': 'working-class', Hispanic: 'Hispanic' };
@@ -288,8 +301,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       const n = Object.keys(live).length;
       const last = d3.max(liveRows, (r) => r.fetched_at ? new Date(r.fetched_at) : null);
       const fmtT = (d) => d.toLocaleString('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + ' ET';
-      ls.textContent = n
-        ? 'Decision Desk results: ' + n + ' of ' + bell.length + ' counties, last updated ' + (last ? fmtT(last) : '—') + '.'
+      const nh = Object.keys(held).length;
+      ls.textContent = (n || nh)
+        ? 'Decision Desk results: ' + n + ' of ' + bell.length + ' counties used' + (nh ? ', ' + nh + ' more waiting for 80% counted' : '') + '; last updated ' + (last ? fmtT(last) : '—') + '.'
         : (last ? 'Decision Desk results: none readable yet as of ' + fmtT(last) + '.' : 'Decision Desk results: none yet. The first automatic update runs Nov 3 at 6 PM ET.');
       if (Object.keys(TO.gi).length && !TO.demo) ls.textContent += ' Projected turnout vs 2024: ' + GROUPS.filter((g) => TO.gi[g]).map((g) => GL[g] + ' ' + pct(TO.gi[g].ti)).join(', ') + (turnOn ? (TO.active ? '.' : ' (weights adjust once two groups report).') : ' (turnout adjustment off).');
     } else {
@@ -312,7 +326,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       const inp = tr.querySelector('input.lx-in');
       if (r.id !== focused && !inp.classList.contains('bad')) inp.value = (typeof typed === 'number') ? signed(typed) : '';
       inp.placeholder = live[r.id] ? signed(live[r.id].d_margin) : 'D+0.0';
-      tr.querySelector('.lx-src').textContent = typeof typed === 'number' ? 'You' : (live[r.id] ? 'DDHQ' + (live[r.id].race ? ' · ' + live[r.id].race : '') : '');
+      const hr = held[r.id];
+      tr.querySelector('.lx-src').textContent = typeof typed === 'number' ? 'You' : (live[r.id] ? 'DDHQ' + (live[r.id].race ? ' · ' + live[r.id].race : '') : (hr ? 'Waiting: ' + signed(hr.d_margin) + ' with ' + d3.format('.0%')(hr.frac) + ' in' : ''));
       const sw = tr.querySelector('.lx-sw');
       if (typeof v === 'number') { const s = v - r.margin_2024; sw.textContent = signed(s); sw.className = 'num lx-sw ' + (s >= 0 ? 'lx-d' : 'lx-r'); }
       else { sw.textContent = ''; sw.className = 'num lx-sw'; }
